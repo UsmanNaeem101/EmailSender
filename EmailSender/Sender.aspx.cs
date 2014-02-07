@@ -52,7 +52,7 @@ namespace EmailSender
             {
                 numberOfEmailsInt = Int32.Parse(_numberOfEmails.Text.ToString());
             }
-
+            Random _r = new Random();
             using (MailMessage mail = new MailMessage())
             {
                 mail.From = new MailAddress(emailFrom);
@@ -60,6 +60,7 @@ namespace EmailSender
                 mail.Subject = subject;
                 mail.Body = body;
                 mail.IsBodyHtml = true;
+                
                 // Can set to false, if you are sending pure text.
 
                 using (SmtpClient smtp = new SmtpClient(smtpAddress, portNumber))
@@ -69,7 +70,10 @@ namespace EmailSender
                     try
                     {
                         for (int i = 0; i < numberOfEmailsInt; i++)
+                        {
+                            subject = _subject.Text.ToString() + _r.Next(1000);
                             smtp.Send(mail);
+                        }
                     }
                     catch (Exception ex)
                     {
